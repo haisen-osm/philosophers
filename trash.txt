@@ -1,0 +1,9 @@
+	//! stop here (initializing the philos and sim struct)
+	// if ()
+	// philos[6].id
+	printf("id: %d\nl_fork: %p\nr_fork: %p\n", philos[6].id, philos[6].left_fork, philos[6].right_fork);
+	printf("-------------------------\n");
+	for (int i = 0; i < config.num_philos; i++)
+	{
+		printf("fork num %d: %p\n", i, &simulation.forks[i]);
+	}
