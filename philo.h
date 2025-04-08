@@ -53,4 +53,6 @@ int check_num(char *str);
 void config_init(t_config *config);
 void compl_init(t_philo *philo, t_sim *sim, t_config *config);
 void ft_dining(t_config *config, t_philo *philos, t_sim *sim);
+void log_action(t_philo *philo, char *msg);
+long get_time_in_ms();
 #endif

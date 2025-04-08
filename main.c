@@ -20,24 +20,26 @@ int ft_parsing(int ac, char **av, t_config *config)
 	return 0;
 }
 
-int main()
+long get_time_in_ms()
 {
-	// t_config config;
-	// if (ft_parsing(ac, av, &config) == -1)
-	// 	return EXIT_FAILURE;
-	// t_philo *philos = malloc(sizeof(t_philo) * config.num_philos);
-	// if (!philos)
-	// 	return 1;
-	// t_sim simulation;
-	// compl_init(philos, &simulation, &config);
-	// ft_dining(&config, philos, &simulation);
 	struct timeval test;
 	gettimeofday(&test, NULL);
-	printf("seconds: %ld\nmicroseceonds: %ld\n", test.tv_sec, test.tv_usec);
 	long ms = test.tv_sec * 1000 + test.tv_usec / 1000;
-	printf("%ld\n", ms);
-	sleep(1);
 	ms = test.tv_sec * 1000 + test.tv_usec / 1000;
-	printf("%ld\n", ms);
+	return (ms);
+}
+
+int main(int ac, char *av[])
+{
+	t_config config;
+	if (ft_parsing(ac, av, &config) == -1)
+		return EXIT_FAILURE;
+	t_philo *philos = malloc(sizeof(t_philo) * config.num_philos);
+	if (!philos)
+		return 1;
+	t_sim simulation;
+	compl_init(philos, &simulation, &config);
+	ft_dining(&config, philos, &simulation);
+
 	return EXIT_SUCCESS;
 }
