@@ -9,8 +9,7 @@ void config_init(t_config *config)
 	config->must_eat_count = 0;
 	config->has_must_eat = 0;
 }
-
-void compl_init(t_philo *philo, t_sim *sim, t_config *config)
+int compl_init(t_philo *philo, t_sim *sim, t_config *config)
 {
 	int i;
 
@@ -18,16 +17,20 @@ void compl_init(t_philo *philo, t_sim *sim, t_config *config)
 	sim->config = config;
 	sim->forks = malloc(sizeof(pthread_mutex_t) * config->num_philos);
 	if (!sim->forks)
-		return;
+		return MALLOC_FAILED;
 	sim->start_time = get_time_in_ms();
 	while (i < config->num_philos)
 	{
-		pthread_mutex_init(&sim->forks[i], NULL);
+		if (pthread_mutex_init(&sim->forks[i], NULL) != 0)
+			return PTHREAD_MUTEX_FAILED;
 		i++;
 	}
-	pthread_mutex_init(&sim->print_mutex, NULL);
-	pthread_mutex_init(&sim->death_mutex, NULL);
-	pthread_mutex_init(&sim->meal_mutex, NULL);
+	if (pthread_mutex_init(&sim->print_mutex, NULL) != 0 ||
+		pthread_mutex_init(&sim->death_mutex, NULL) != 0 ||
+		pthread_mutex_init(&sim->meal_mutex, NULL) != 0)
+	{
+		return PTHREAD_MUTEX_FAILED;
+	}
 	i = 0;
 	while (i < config->num_philos)
 	{
@@ -42,4 +45,5 @@ void compl_init(t_philo *philo, t_sim *sim, t_config *config)
 	}
 	sim->philos = philo;
 	sim->someone_died = 0;
+	return 0;
 }

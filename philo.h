@@ -9,6 +9,11 @@
 #include <limits.h>
 #include <sys/time.h>
 
+#define MALLOC_FAILED 1
+#define PTHREAD_CREATE_FAILED 2
+#define PTHREAD_JOIN_FAILED 3
+#define PTHREAD_MUTEX_FAILED 4
+
 struct s_sim;
 typedef struct s_sim t_sim;
 
@@ -51,8 +56,13 @@ int check_args(char **av, t_config *config);
 int ft_atoi(char *str);
 int check_num(char *str);
 void config_init(t_config *config);
-void compl_init(t_philo *philo, t_sim *sim, t_config *config);
-void ft_dining(t_config *config, t_philo *philos, t_sim *sim);
+int compl_init(t_philo *philo, t_sim *sim, t_config *config);
+int ft_dining(t_config *config, t_philo *philos);
 void log_action(t_philo *philo, char *msg);
 long get_time_in_ms();
+void ft_putstr(char *str, int fd);
+void print_err(char *err_msg);
+int handle_error(int code);
+void free_all(t_sim *sim, t_philo *philos);
+
 #endif

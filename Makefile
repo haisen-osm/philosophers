@@ -1,8 +1,8 @@
 NAME = philosophers
-SRCS = main.c checkers.c utils.c initialize.c philo.c
+SRCS = main.c checkers.c utils.c initialize.c philo.c cleanup.c
 OBJS = $(SRCS:.c=.o)
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -pthread
 
 all: $(NAME)
 

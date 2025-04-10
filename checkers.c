@@ -15,7 +15,7 @@ int check_args(char **av, t_config *config)
 		config->has_must_eat = 0;
 	if (config->num_philos == -1 || config->time_to_die == -1 || config->time_to_eat == -1 ||
 		config->time_to_sleep == -1 || config->must_eat_count == -1)
-		return -1;
+		return 1;
 	return 0;
 }
 

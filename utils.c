@@ -28,3 +28,23 @@ int ft_atoi(char *str)
 	}
 	return (sign * res);
 }
+
+static void ft_putchar(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void ft_putstr(char *str, int fd)
+{
+	int i;
+
+	if (!str)
+		return;
+	i = 0;
+	while (str[i])
+	{
+		ft_putchar(str[i], fd);
+		i++;
+	}
+	return;
+}

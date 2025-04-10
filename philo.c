@@ -28,10 +28,9 @@ void *philo_routine(void *arg)
 		usleep(philo->config->time_to_sleep * 1000);
 		log_action(philo, "thinking");
 	}
-
 	return NULL;
 }
-// ! stop here for a break
+
 void *simulation(void *arg)
 {
 	t_philo *philos = (t_philo *)arg;
@@ -69,28 +68,30 @@ void *simulation(void *arg)
 			sim->someone_died = 1;
 			break;
 		}
-		usleep(500);
 	}
-
 	return NULL;
 }
 
-void ft_dining(t_config *config, t_philo *philos, t_sim *sim)
+int ft_dining(t_config *config, t_philo *philos)
 {
 	int i = 0;
 	while (i < config->num_philos)
 	{
-		pthread_create(&philos[i].thread_id, NULL, philo_routine, (void *)&philos[i]);
+		if (pthread_create(&philos[i].thread_id, NULL, philo_routine, (void *)&philos[i]) != 0)
+			return PTHREAD_CREATE_FAILED;
 		i++;
 	}
 	pthread_t simthr_id;
-	pthread_create(&simthr_id, NULL, simulation, (void *)philos);
+	if (pthread_create(&simthr_id, NULL, simulation, (void *)philos) != 0)
+		return PTHREAD_CREATE_FAILED;
 	i = 0;
 	while (i < config->num_philos)
 	{
-		pthread_join(philos[i].thread_id, NULL);
+		if (pthread_join(philos[i].thread_id, NULL) != 0)
+			return PTHREAD_JOIN_FAILED;
 		i++;
 	}
-
-	sim->someone_died = 0;
+	if (pthread_join(simthr_id, NULL) != 0)
+		return PTHREAD_JOIN_FAILED;
+	return 0;
 }
